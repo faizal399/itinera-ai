@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <!-- Thick Stack (Multiple Bills for depth) -->
+  <rect x="30" y="60" width="140" height="75" rx="8" fill="#1B5E20" />
+  <rect x="30" y="55" width="140" height="75" rx="8" fill="#2E7D32" />
+  <rect x="30" y="50" width="140" height="75" rx="8" fill="#388E3C" />
+  <rect x="30" y="45" width="140" height="75" rx="8" fill="#4CAF50" />
+  
+  <!-- Top Bill -->
+  <rect x="35" y="50" width="130" height="65" rx="4" fill="#E8F5E9" />
+  <circle cx="100" cy="82.5" r="18" fill="#A5D6A7" />
+  <circle cx="100" cy="82.5" r="14" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" />
+  <text x="100" y="91" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#2E7D32" text-anchor="middle">$</text>
+  
+  <!-- Gold Money Band -->
+  <rect x="85" y="45" width="30" height="75" fill="#FBC02D" />
+  <rect x="90" y="45" width="20" height="75" fill="#FFF176" />
+  
+  <!-- Pile of Gold Coins -->
+  <circle cx="150" cy="140" r="22" fill="#FBC02D" />
+  <circle cx="150" cy="140" r="17" fill="#FFF176" stroke="#F9A825" stroke-width="2" />
+  <text x="150" y="148" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#F57F17" text-anchor="middle">$</text>
+  
+  <circle cx="120" cy="150" r="18" fill="#FBC02D" />
+  <circle cx="120" cy="150" r="13" fill="#FFF176" stroke="#F9A825" stroke-width="2" />
+  <text x="120" y="157" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#F57F17" text-anchor="middle">$</text>
+
+  <circle cx="170" cy="120" r="16" fill="#FBC02D" />
+  <circle cx="170" cy="120" r="12" fill="#FFF176" stroke="#F9A825" stroke-width="1.5" />
+
+  <!-- Sparkles -->
+  <path d="M 40 40 Q 45 40 45 35 Q 45 40 50 40 Q 45 40 45 45 Q 45 40 40 40" fill="#FBC02D" />
+  <path d="M 160 30 Q 165 30 165 25 Q 165 30 170 30 Q 165 30 165 35 Q 165 30 160 30" fill="#FBC02D" />
+  <path d="M 70 140 Q 75 140 75 135 Q 75 140 80 140 Q 75 140 75 145 Q 75 140 70 140" fill="#FBC02D" />
+</svg>

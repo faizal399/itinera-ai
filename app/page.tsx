@@ -1,69 +1,119 @@
+"use client";
 import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+const page = () => {
+  const destinations = [
+    {
+      name: "Agra",
+      image: "/trips-images/agra.jpeg",
+      bestFor: "History & Architecture",
+    },
+    {
+      name: "Kashmir",
+      image: "/trips-images/kashmir.jpeg",
+      bestFor: "Mountains & Nature",
+    },
+    {
+      name: "Goa",
+      image: "/trips-images/goa.jpeg",
+      bestFor: "Beaches & Nightlife",
+    },
+    {
+      name: "Dubai",
+      image: "/trips-images/dubai.jpeg",
+      bestFor: "Luxury & Shopping",
+    },
+    {
+      name: "Jaipur",
+      image: "/trips-images/jaipur.jpeg",
+      bestFor: "Culture & Heritage",
+    },
+    {
+      name: "Manali",
+      image: "/trips-images/manali.jpeg",
+      bestFor: "Adventure & Mountains",
+    },
+    {
+      name: "Rome",
+      image: "/trips-images/rome.jpeg",
+      bestFor: "History & Food",
+    },
+    {
+      name: "Singapore",
+      image: "/trips-images/singapore.jpeg",
+      bestFor: "City & Family Travel",
+    },
+  ];
 
-export default function Home() {
+  const [active, setActive] = useState(null);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <div className="flex flex-col bg-neutral-100  min-h-screen w-full">
+      <div className="w-2/3 mx-auto select-none py-4">
+        <div className="flex h-100 gap-3">
+          {destinations.map((dest, idx) => (
+            <div
+              key={idx}
+              onMouseEnter={() => setActive(idx)}
+              onMouseLeave={() => setActive(null)}
+              className={`transition-all duration-500 overflow-hidden rounded-2xl cursor-pointer relative ${active === idx ? "flex-3" : "flex-1"}`}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+              <Image
+                className="h-full w-full object-cover"
+                src={dest.image}
+                loading="eager"
+                alt="natural images"
+                width={500}
+                height={200}
+              />
+              {active === idx && (
+                <div className={`"text-black absolute  top-[80%]  backdrop-blur-xs p-2 h-full w-full transition-all duration-900 overflow-hidden" ${active===idx? "opacity-100 ":"opacity-0"}`}>
+                  <h2 className="text-2xl font-black text-neutral-200">
+                    {dest.name}
+                  </h2>
+                  <p className="text-neutral-400">{dest.bestFor}</p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+      <main className="h-full flex flex-col justify-center items-center w-full text-center gap-5">
+        <div>
+          <p className="text-8xl font-bold text-[#18181B] tracking-tight text-wrap  ">
+            Craft Unforgettable
+          </p>
+          <p className="text-8xl font-bold text-[#18181B] tracking-tight text-wrap">
+            Itineraries with
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <h1 className="text-8xl tracking-tight font-bold text-[#F56551]">
+          ITINERA.AI
+        </h1>
+        <p className="text-taupe-600 text-xl w-1/2 font-mono">
+          Your personal trip planner and travel curator, creating custom
+          itineraries tailored to your interests and budget.
+        </p>
+        <div>
+         <Link href={"/create-trip"}>
+          <button className="bg-neutral-950 px-2 py-1 rounded text-xl cursor-pointer hover:bg-neutral-800 hover:shadow-black shadow-md focus:shadow-none duration-300">
+            Get started
+          </button>
+         </Link>
+        </div>
+        <div className="bg-neutral-900 mx-auto w-1/2  rounded-md my-10 p-5 flex flex-col justify-center items-center gap-4">
+          <p className="text-4xl tracking-tight font-bold">
+            Skip the manual trip planning and start your effortless journey with
+            Trip Planner AI today, at no cost.
+          </p>
+          <button className="bg-neutral-100 text-neutral-900 px-4 py-1 rounded  cursor-pointer text-2xl">
+            Try Now
+          </button>
         </div>
       </main>
     </div>
   );
-}
+};
+
+export default page;

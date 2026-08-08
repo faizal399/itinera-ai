@@ -1,0 +1,212 @@
+"use client";
+import Image from "next/image";
+import useTripStore from "../store/useTripStore";
+const TripForm = () => {
+  const {
+    destination,
+    setDestination,
+    resetTrip,
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+    budget,
+    setBudget,
+    travelers,
+    setTravelers,
+    interests,
+    setInterests,
+    travelStyle,setTravelStyle
+  } = useTripStore();
+
+  const interestsActivity = [
+    {
+      id: "beaches",
+      name: "Beaches",
+    },
+    {
+      id: "city-sightseeing",
+      name: "City sightseeing",
+    },
+    {
+      id: "outdoor-adventures",
+      name: "Outdoor adventures",
+    },
+    {
+      id: "festivals-events",
+      name: "Festivals/events",
+    },
+    {
+      id: "food-exploration",
+      name: "Food exploration",
+    },
+    {
+      id: "nightlife",
+      name: "Nightlife",
+    },
+    {
+      id: "shopping",
+      name: "Shopping",
+    },
+    {
+      id: "spa-wellness",
+      name: "Spa wellness",
+    },
+  ];
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(destination);
+    resetTrip();
+  };
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit} className="space-y-8">
+        <div className="flex flex-col gap-2">
+          <label className="text-2xl font-bold">
+            What is destination of choice?
+          </label>
+          <input
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
+            className="text-2xl border border-neutral-400 px-2 rounded py-1"
+            type="text"
+            placeholder="New Work"
+          />
+        </div>
+        <div className="flex gap-2 justify-between">
+          <div className="flex flex-col gap-2">
+            <label className="text-2xl font-bold">
+              When are you planning to travel?
+            </label>
+            <input
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="text-2xl border border-neutral-400 px-2 rounded py-1"
+              type="date"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-2xl font-bold">
+              When are you planning to End trip?
+            </label>
+            <input
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="text-2xl border border-neutral-400 px-2 rounded py-1"
+              type="date"
+            />
+          </div>
+        </div>
+        <div className="flex flex-col gap-2">
+          <label className="text-2xl font-bold">
+            Who do you plan on traveling with on your next adventure?
+          </label>
+          <input
+            value={travelers}
+            onChange={(e) => setTravelers(e.target.value)}
+            className="text-2xl border border-neutral-400 px-2 rounded py-1"
+            type="number"
+            placeholder="2"
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <label className="text-2xl font-bold">What is Your Budget?</label>
+          <div className="flex justify-between items-center gap-5 p-2">
+            <div
+              className={`  w-full flex flex-col justify-center cursor-pointer items-center  rounded-md ${budget === "budget" ? "border-2 border-black bg-gray-50" : "border border-neutral-300 hover:border-gray-800"}`}
+              onClick={() => setBudget("budget")}
+            >
+              {/* budget */}
+              <Image
+                src={"/budget-svg/budget.svg"}
+                alt="budget"
+                width={0}
+                height={0}
+                className="w-20"
+              />
+              <p className="p-2 font-bold">Low Budget: 1$ - 1000$ USD</p>
+            </div>
+            <div
+              className={`  w-full flex flex-col justify-center items-center  cursor-pointer rounded-md ${budget === "moderate" ? "border-2 border-black bg-gray-50" : "border border-neutral-300 hover:border-gray-800"}`}
+              onClick={() => setBudget("moderate")}
+            >
+              {/* moderate */}
+              <Image
+                src={"/budget-svg/moderate.svg"}
+                alt="budget"
+                width={0}
+                height={0}
+                className="w-20"
+              />
+              <p className="p-2 font-bold">Moderate Budget: 1000$ - 2500$ USD</p>
+            </div>
+            <div
+              className={`  w-full flex flex-col justify-center cursor-pointer items-center  rounded-md ${budget === "luxury" ? "border-2 border-black bg-gray-50" : "border border-neutral-300 hover:border-gray-800"}`}
+              onClick={() => setBudget("luxury")}
+            >
+              {/* luxury */}
+              <Image
+                src={"/budget-svg/luxury.svg"}
+                alt="budget"
+                width={0}
+                height={0}
+                className="w-20"
+              />
+              <p className="p-2 font-bold">Luxury Budget: 2500$+ USD</p>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col gap-2">
+          <label className="text-2xl font-bold">
+            Which activities are you interested in?
+          </label>
+          <div className="flex flex-wrap  items-center gap-2 p-2">
+            {interestsActivity.map((int, idx) => (
+              <div
+                key={idx}
+                onClick={() => setInterests(int.name)}
+                className={`  w-fit  justify-center cursor-pointer items-center  rounded-md 
+                    
+                    border text-center px-2 py-1 text-nowrap
+                    ${interests === int.name ? "border-2 border-black bg-gray-50" : "border border-neutral-300 hover:border-gray-800"}
+                    `}
+              >
+                <p>{int.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+           <div className="flex flex-col gap-2">
+        <label className="text-2xl font-bold">
+            Travel Style?
+          </label>
+
+        <select
+          value={travelStyle}
+          onChange={(e) => setTravelStyle(e.target.value)}
+          className="w-full rounded-lg border p-3"
+        >
+          <option value="">Select travel style</option>
+          <option value="relaxed">Relaxed</option>
+          <option value="adventure">Adventure</option>
+          <option value="cultural">Cultural</option>
+          <option value="luxury">Luxury</option>
+          <option value="budget">Budget</option>
+        </select>
+          </div>
+                <button
+        type="submit"
+        className="w-full rounded-lg bg-black px-5 py-3 text-white"
+      >
+        Generate My Trip
+      </button>
+      </form>
+    </div>
+  );
+};
+
+export default TripForm;
+
+
