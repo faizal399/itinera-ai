@@ -1,7 +1,13 @@
 "use client";
 import Image from "next/image";
 import useTripStore from "../store/useTripStore";
+import { tripSchema } from "@/lib/tripSchema";
+import { useState } from "react";
+import Link from "next/link";
 const TripForm = () => {
+  const [errors, setErrors] = useState<Record<string, string[] | undefined>>(
+    {},
+  );
   const {
     destination,
     setDestination,
@@ -16,7 +22,12 @@ const TripForm = () => {
     setTravelers,
     interests,
     setInterests,
-    travelStyle,setTravelStyle
+    travelStyle,
+    setTravelStyle,
+    foodPreferences,
+    setFoodPreferences,
+    setLoading,
+    setItinerary,
   } = useTripStore();
 
   const interestsActivity = [
@@ -54,10 +65,56 @@ const TripForm = () => {
     },
   ];
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(destination);
-    resetTrip();
+    const tripData = {
+      destination,
+      startDate,
+      endDate,
+      budget,
+      travelers,
+      travelStyle,
+      interests,
+      foodPreferences,
+    };
+
+    const result = tripSchema.safeParse(tripData);
+    if (!result.success) {
+      setErrors(result.error.flatten().fieldErrors);
+      return;
+    }
+    setErrors({});
+
+    console.log("Valid: ", result.data);
+
+    try {
+      setLoading(true);
+
+      const response = await fetch("/api/generate-trip", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(result.data),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("API Error:", data);
+        throw new Error(data.error || "Failed to generate trip");
+      }
+
+      console.log("Generated Trip:", data);
+      setItinerary(data);
+      // const trip = await response.json();
+      console.log(data);
+      // console.log("Trip generated", trip);
+    } catch (error) {
+      console.error("Trip Generation Error: ", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -67,6 +124,9 @@ const TripForm = () => {
           <label className="text-2xl font-bold">
             What is destination of choice?
           </label>
+          {errors.destination && (
+            <p className="text-red-500 text-sm">{errors.destination[0]}</p>
+          )}
           <input
             value={destination}
             onChange={(e) => setDestination(e.target.value)}
@@ -80,6 +140,9 @@ const TripForm = () => {
             <label className="text-2xl font-bold">
               When are you planning to travel?
             </label>
+            {errors.startDate && (
+              <p className="text-red-500 text-sm">{errors.startDate[0]}</p>
+            )}
             <input
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
@@ -91,6 +154,9 @@ const TripForm = () => {
             <label className="text-2xl font-bold">
               When are you planning to End trip?
             </label>
+            {errors.endDate && (
+              <p className="text-red-500 text-sm">{errors.endDate[0]}</p>
+            )}
             <input
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
@@ -103,6 +169,9 @@ const TripForm = () => {
           <label className="text-2xl font-bold">
             Who do you plan on traveling with on your next adventure?
           </label>
+          {errors.travelers && (
+            <p className="text-red-500 text-sm">{errors.travelers[0]}</p>
+          )}
           <input
             value={travelers}
             onChange={(e) => setTravelers(e.target.value)}
@@ -113,9 +182,12 @@ const TripForm = () => {
         </div>
         <div className="flex flex-col gap-2">
           <label className="text-2xl font-bold">What is Your Budget?</label>
-          <div className="flex justify-between items-center gap-5 p-2">
+          {errors.budget && (
+            <p className="text-red-500 text-sm">{errors.budget[0]}</p>
+          )}
+          <div className="flex text-center justify-between items-center gap-5 p-2">
             <div
-              className={`  w-full flex flex-col justify-center cursor-pointer items-center  rounded-md ${budget === "budget" ? "border-2 border-black bg-gray-50" : "border border-neutral-300 hover:border-gray-800"}`}
+              className={` h-full  w-full flex flex-col justify-center cursor-pointer items-center  rounded-md ${budget === "budget" ? "border-2 border-black bg-gray-50" : "border border-neutral-300 hover:border-gray-800"}`}
               onClick={() => setBudget("budget")}
             >
               {/* budget */}
@@ -124,12 +196,14 @@ const TripForm = () => {
                 alt="budget"
                 width={0}
                 height={0}
-                className="w-20"
+                className="w-18"
               />
-              <p className="p-2 font-bold">Low Budget: 1$ - 1000$ USD</p>
+              <p className="p-2 tracking-tight font-bold">
+                Low Budget: 1$ - 1000$ USD
+              </p>
             </div>
             <div
-              className={`  w-full flex flex-col justify-center items-center  cursor-pointer rounded-md ${budget === "moderate" ? "border-2 border-black bg-gray-50" : "border border-neutral-300 hover:border-gray-800"}`}
+              className={` h-full  w-full flex flex-col justify-center items-center  cursor-pointer rounded-md ${budget === "moderate" ? "border-2 border-black bg-gray-50" : "border border-neutral-300 hover:border-gray-800"}`}
               onClick={() => setBudget("moderate")}
             >
               {/* moderate */}
@@ -138,12 +212,14 @@ const TripForm = () => {
                 alt="budget"
                 width={0}
                 height={0}
-                className="w-20"
+                className="w-18"
               />
-              <p className="p-2 font-bold">Moderate Budget: 1000$ - 2500$ USD</p>
+              <p className="p-2 tracking-tight font-bold">
+                Moderate Budget: 1000$ - 2500$ USD
+              </p>
             </div>
             <div
-              className={`  w-full flex flex-col justify-center cursor-pointer items-center  rounded-md ${budget === "luxury" ? "border-2 border-black bg-gray-50" : "border border-neutral-300 hover:border-gray-800"}`}
+              className={` h-full  w-full flex flex-col justify-center cursor-pointer items-center  rounded-md ${budget === "luxury" ? "border-2 border-black bg-gray-50" : "border border-neutral-300 hover:border-gray-800"}`}
               onClick={() => setBudget("luxury")}
             >
               {/* luxury */}
@@ -152,9 +228,11 @@ const TripForm = () => {
                 alt="budget"
                 width={0}
                 height={0}
-                className="w-20"
+                className="w-18"
               />
-              <p className="p-2 font-bold">Luxury Budget: 2500$+ USD</p>
+              <p className="p-2 tracking-tight font-bold">
+                Luxury Budget: 2500$+ USD
+              </p>
             </div>
           </div>
         </div>
@@ -162,6 +240,9 @@ const TripForm = () => {
           <label className="text-2xl font-bold">
             Which activities are you interested in?
           </label>
+          {errors.interests && (
+            <p className="text-red-500 text-sm">{errors.interests[0]}</p>
+          )}
           <div className="flex flex-wrap  items-center gap-2 p-2">
             {interestsActivity.map((int, idx) => (
               <div
@@ -178,35 +259,48 @@ const TripForm = () => {
             ))}
           </div>
         </div>
-           <div className="flex flex-col gap-2">
-        <label className="text-2xl font-bold">
-            Travel Style?
-          </label>
-
-        <select
-          value={travelStyle}
-          onChange={(e) => setTravelStyle(e.target.value)}
-          className="w-full rounded-lg border p-3"
-        >
-          <option value="">Select travel style</option>
-          <option value="relaxed">Relaxed</option>
-          <option value="adventure">Adventure</option>
-          <option value="cultural">Cultural</option>
-          <option value="luxury">Luxury</option>
-          <option value="budget">Budget</option>
-        </select>
-          </div>
-                <button
-        type="submit"
-        className="w-full rounded-lg bg-black px-5 py-3 text-white"
-      >
-        Generate My Trip
-      </button>
+        <div className="flex flex-col gap-2">
+          <label className="text-2xl font-bold">Food Preferences?</label>
+          {errors.foodPreferences && (
+            <p className="text-red-500 text-sm">{errors.foodPreferences[0]}</p>
+          )}
+          <input
+            value={foodPreferences}
+            onChange={(e) => setFoodPreferences(e.target.value)}
+            className="text-2xl border border-neutral-400 px-2 rounded py-1"
+            type="text"
+            placeholder="E.g. Non-veg biryani, chicken tikka."
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <label className="text-2xl font-bold">Travel Style?</label>
+          {errors.travelStyle && (
+            <p className="text-red-500 text-sm">{errors.travelStyle[0]}</p>
+          )}
+          <select
+            value={travelStyle}
+            onChange={(e) => setTravelStyle(e.target.value)}
+            className="w-full rounded-lg border p-3"
+          >
+            <option value="">Select travel style</option>
+            <option value="relaxed">Relaxed</option>
+            <option value="adventure">Adventure</option>
+            <option value="cultural">Cultural</option>
+            <option value="luxury">Luxury</option>
+            <option value="budget">Budget</option>
+          </select>
+        </div>
+        <Link href={"/trip"}>
+          <button
+            type="submit"
+            className="w-full cursor-pointer rounded-lg bg-black px-5 py-3 text-white"
+          >
+            Generate My Trip
+          </button>
+        </Link>
       </form>
     </div>
   );
 };
 
 export default TripForm;
-
-

@@ -1,6 +1,8 @@
 import { create } from "zustand";
-
-const useTripStore = create((set) => ({
+import { persist } from "zustand/middleware";
+const useTripStore = create(
+persist(
+    (set) => ({
   destination: "",
 
   budget: "",
@@ -18,7 +20,7 @@ const useTripStore = create((set) => ({
   setBudget: (budget) => set({ budget }),
   setTravelers: (travelers) => set({ travelers }),
   setInterests: (interests) => set({ interests }),
-  setFoodPreferences: (foodPrefrences) => set({ foodPrefrences }),
+  setFoodPreferences: (foodPreferences) => set({ foodPreferences }),
   setTravelStyle: (travelStyle) => set({ travelStyle }),
   setStartDate: (startDate) => set({ startDate }),
   setEndDate: (endDate) => set({ endDate }),
@@ -31,7 +33,7 @@ const useTripStore = create((set) => ({
       budget: "",
       travelers: 1,
       interests: "",
-      foodPrefrences: "",
+      foodPreferences: "",
       travelStyle: "",
       startDate:"",
       endDate: "",
@@ -39,6 +41,14 @@ const useTripStore = create((set) => ({
       itinerary: null,
       error: null,
     }),
-}));
+}),{
+  name:"trip-storage",
+   partialize: (state) => ({
+        itinerary: state.itinerary,
+      }),
+}
+)
+
+);
 
 export default useTripStore;

@@ -1,10 +1,12 @@
+import { SignInButton, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import ProfileButton from "./ProfileButton";
 
 const Navbar = () => {
   return (
-    <nav className="w-full mx-auto  border-b border-b-neutral-400 bg-neutral-100 text-neutral-900 p-2">
+    <nav className="w-full h-16 mx-auto px-20 flex justify-between items-center  border-b border-b-neutral-400 bg-neutral-100 text-neutral-900 p-2">
      <Link href={"/"}>
       <Image
         src={"/logoipsum-custom-logo.svg"}
@@ -14,6 +16,8 @@ const Navbar = () => {
         alt="logo ai image"
       />
      </Link>
+     
+    <ProfileButton/>
     </nav>
   );
 };
