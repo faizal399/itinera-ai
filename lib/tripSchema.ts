@@ -4,7 +4,7 @@ export const tripSchema = z
   .object({
     destination: z.string().min(2, "Please Enter a destination"),
 
-    travelers: z.number().min(1, "At least 1 traveler is required"),
+    travelers: z.string().min(1, "At least 1 traveler is required"),
     budget: z.string().min(1, "please select a budget"),
     interests: z.string().min(1, "Please select your interests"),
 

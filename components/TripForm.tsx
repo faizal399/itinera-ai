@@ -3,7 +3,8 @@ import Image from "next/image";
 import useTripStore from "../store/useTripStore";
 import { tripSchema } from "@/lib/tripSchema";
 import { useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { IconLoader } from '@tabler/icons-react';
 const TripForm = () => {
   const [errors, setErrors] = useState<Record<string, string[] | undefined>>(
     {},
@@ -27,8 +28,12 @@ const TripForm = () => {
     foodPreferences,
     setFoodPreferences,
     setLoading,
-    setItinerary,
+
+    setItinerary,loading
   } = useTripStore();
+
+
+  const router = useRouter()
 
   const interestsActivity = [
     {
@@ -107,6 +112,8 @@ const TripForm = () => {
 
       console.log("Generated Trip:", data);
       setItinerary(data);
+
+      router.push("/trip")
       // const trip = await response.json();
       console.log(data);
       // console.log("Trip generated", trip);
@@ -290,14 +297,18 @@ const TripForm = () => {
             <option value="budget">Budget</option>
           </select>
         </div>
-        <Link href={"/trip"}>
+        
           <button
+          disabled={loading}
             type="submit"
-            className="w-full cursor-pointer rounded-lg bg-black px-5 py-3 text-white"
+            className={`w-full cursor-pointer  duration-300 rounded-lg bg-black px-5 py-3 text-white flex justify-center items-center `}
           >
-            Generate My Trip
+            {
+             loading === true ?(
+            <span className="flex gap-2"><IconLoader stroke={2} className="animate-spin " /><p className="animate-pulse">Generating Trip...</p></span>):"Generate My Trip"
+            }
           </button>
-        </Link>
+        
       </form>
     </div>
   );

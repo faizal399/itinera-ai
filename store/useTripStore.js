@@ -37,7 +37,7 @@ persist(
       travelStyle: "",
       startDate:"",
       endDate: "",
-      loading: false,
+      loading: true,
       itinerary: null,
       error: null,
     }),
