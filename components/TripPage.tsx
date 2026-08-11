@@ -81,8 +81,8 @@ const TripPage = () => {
     <main className="min-h-screen w-full max-w-6xl mx-auto text-black py-5 px-2 tracking-tight">
       {/* SUMMARY */}
 
-      <div className="flex flex-col gap-2 my-5">
-        <h1 className="text-4xl font-bold">Summary: {itinerary.destination}</h1>
+      <div className="flex text-[#F56551] flex-col gap-2 my-5">
+        <h1 className="text-4xl font-bold ">Summary: {itinerary.destination}</h1>
 
         <p className="w-3/4 text-xl text-neutral-800">{itinerary.summary}</p>
       </div>
@@ -92,13 +92,13 @@ const TripPage = () => {
       <div className="flex flex-col text-neutral-900 gap-6">
         {itinerary.itinerary.map((trip: any, idx: number) => (
           <div className="border-y  p-4" key={idx}>
-            <h2 className="text-xl mb-4">
-              <span className="font-bold">Day {trip.day}:</span> {trip.title}
+            <h2 className="text-xl font-bold mb-4">
+              <span >Day {trip.day}:</span> {trip.title}
             </h2>
 
             <div className="grid grid-cols-2 gap-6">
               {trip.activities.map((activity: any, activityIdx: number) => {
-                // const place = placeData[activity.activity];
+                
 
                 return (
                   <div className="border rounded-xl p-4" key={activityIdx}>

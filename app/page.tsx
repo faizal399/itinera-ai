@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { motion } from "motion/react";
 const page = () => {
   const destinations = [
     {
@@ -49,11 +50,24 @@ const page = () => {
   const [active, setActive] = useState(null);
 
   return (
-    <div className="flex flex-col bg-neutral-100  min-h-screen w-full">
+    <div className="flex flex-col bg-neutral-100 pb-20 min-h-screen w-full">
       <div className="w-2/3 mx-auto select-none py-4">
-        <div className="flex h-100 gap-3">
+        <div className="flex h-100 gap-3 overflow-hidden">
           {destinations.map((dest, idx) => (
-            <div
+            <motion.div
+              initial={{
+                x: 100 * idx,
+                opacity: 0,
+                filter: "blur(20px)",
+              }}
+              animate={{
+                x: 0,
+                opacity: 1,
+                filter: "blur(0)",
+              }}
+              transition={{
+                delay: 0.1 * idx,
+              }}
               key={idx}
               onMouseEnter={() => setActive(idx)}
               onMouseLeave={() => setActive(null)}
@@ -68,49 +82,161 @@ const page = () => {
                 height={200}
               />
               {active === idx && (
-                <div className={`"text-black absolute  top-[80%]  backdrop-blur-xs p-2 h-full w-full transition-all duration-900 overflow-hidden" ${active===idx? "opacity-100 ":"opacity-0"}`}>
+                <div
+                  className={`"text-black absolute  top-[80%]  backdrop-blur-xs p-2 h-full w-full transition-all duration-900 overflow-hidden" ${active === idx ? "opacity-100 " : "opacity-0"}`}
+                >
                   <h2 className="text-2xl font-black text-neutral-200">
                     {dest.name}
                   </h2>
                   <p className="text-neutral-400">{dest.bestFor}</p>
                 </div>
               )}
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
       <main className="h-full flex flex-col justify-center items-center w-full text-center gap-5">
         <div>
-          <p className="text-8xl font-bold text-[#18181B] tracking-tight text-wrap  ">
+          <motion.p
+            initial={{
+              y: 20,
+              opacity: 0,
+              filter: "blur(10px)",
+            }}
+            whileInView={{
+              y: 0,
+              opacity: 1,
+              filter: "blur(0)",
+            }}
+            transition={{
+              duration: 0.3,
+            }}
+            className="text-8xl font-bold text-[#18181B] tracking-tight text-wrap  "
+          >
             Craft Unforgettable
-          </p>
-          <p className="text-8xl font-bold text-[#18181B] tracking-tight text-wrap">
+          </motion.p>
+          <motion.p
+            initial={{
+              y: 20,
+              opacity: 0,
+              filter: "blur(10px)",
+            }}
+            whileInView={{
+              y: 0,
+              opacity: 1,
+              filter: "blur(0)",
+            }}
+            transition={{
+              duration: 0.3,
+              delay: 0.2,
+            }}
+            className="text-8xl font-bold text-[#18181B] tracking-tight text-wrap"
+          >
             Itineraries with
-          </p>
+          </motion.p>
         </div>
-        <h1 className="text-8xl tracking-tight font-bold text-[#F56551]">
+        <motion.h1
+          initial={{
+            y: 20,
+            opacity: 0,
+            filter: "blur(10px)",
+          }}
+          whileInView={{
+            y: 0,
+            opacity: 1,
+            filter: "blur(0)",
+          }}
+          transition={{
+            duration: 0.3,
+            delay: 0.5,
+          }}
+          className="text-8xl tracking-tight font-bold text-[#F56551]"
+        >
           ITINERA.AI
-        </h1>
-        <p className="text-taupe-600 text-xl w-1/2 font-mono">
+        </motion.h1>
+        <motion.p
+          initial={{
+            y: 20,
+            opacity: 0,
+            filter: "blur(10px)",
+          }}
+          whileInView={{
+            y: 0,
+            opacity: 1,
+            filter: "blur(0)",
+          }}
+          transition={{
+            duration: 0.3,
+            delay: 0.4,
+          }}
+          className="text-taupe-600 text-xl w-1/2 font-mono"
+        >
           Your personal trip planner and travel curator, creating custom
           itineraries tailored to your interests and budget.
-        </p>
+        </motion.p>
         <div>
-         <Link href={"/create-trip"}>
-          <button className="bg-neutral-950 px-2 py-1 rounded text-xl cursor-pointer hover:bg-neutral-800 hover:shadow-black shadow-md focus:shadow-none duration-300">
-            Get started
-          </button>
-         </Link>
+          <Link href={"/create-trip"}>
+            <button className="bg-neutral-950 px-2 py-1 rounded text-xl cursor-pointer hover:bg-neutral-800 hover:shadow-black shadow-md focus:shadow-none duration-300">
+              Get started
+            </button>
+          </Link>
         </div>
-        <div className="bg-neutral-900 mx-auto w-1/2  rounded-md my-10 p-5 flex flex-col justify-center items-center gap-4">
-          <p className="text-4xl tracking-tight font-bold">
+        <motion.div
+          initial={{
+            y: 20,
+            opacity: 0,
+            filter: "blur(10px)",
+          }}
+          whileInView={{
+            y: 0,
+            opacity: 1,
+            filter: "blur(0)",
+          }}
+          transition={{
+            delay: 0.4,
+            duration: 0.4,
+          }}
+          className="bg-neutral-900 mx-auto w-1/2  rounded-md my-10 p-5 flex flex-col justify-center items-center gap-4"
+        >
+          <motion.p
+          
+           initial={{
+            y: -20,
+            opacity: 0,
+            filter: "blur(10px)",
+          }}
+          whileInView={{
+            y: 0,
+            opacity: 1,
+            filter: "blur(0)",
+          }}
+          transition={{
+            delay: 0.8,
+            duration: 0.4,
+          }}
+          className="text-4xl tracking-tight font-bold">
             Skip the manual trip planning and start your effortless journey with
             Trip Planner AI today, at no cost.
-          </p>
-          <button className="bg-neutral-100 text-neutral-900 px-4 py-1 rounded  cursor-pointer text-2xl">
+          </motion.p>
+          <motion.button
+           initial={{
+            y: 20,
+            opacity: 0,
+            filter: "blur(10px)",
+          }}
+          whileInView={{
+            y: 0,
+            opacity: 1,
+            filter: "blur(0)",
+          }}
+          transition={{
+            delay: 0.4,
+            duration: 0.4,
+          }}
+          className="bg-neutral-100 text-neutral-900 px-4 py-1 rounded  cursor-pointer text-2xl">
             Try Now
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       </main>
     </div>
   );

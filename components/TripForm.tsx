@@ -1,10 +1,11 @@
 "use client";
 import Image from "next/image";
+import { motion } from "motion/react";
 import useTripStore from "../store/useTripStore";
 import { tripSchema } from "@/lib/tripSchema";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { IconLoader } from '@tabler/icons-react';
+import { IconLoader } from "@tabler/icons-react";
 const TripForm = () => {
   const [errors, setErrors] = useState<Record<string, string[] | undefined>>(
     {},
@@ -29,11 +30,11 @@ const TripForm = () => {
     setFoodPreferences,
     setLoading,
 
-    setItinerary,loading
+    setItinerary,
+    loading,
   } = useTripStore();
 
-
-  const router = useRouter()
+  const router = useRouter();
 
   const interestsActivity = [
     {
@@ -113,7 +114,7 @@ const TripForm = () => {
       console.log("Generated Trip:", data);
       setItinerary(data);
 
-      router.push("/trip")
+      router.push("/trip");
       // const trip = await response.json();
       console.log(data);
       // console.log("Trip generated", trip);
@@ -137,7 +138,7 @@ const TripForm = () => {
           <input
             value={destination}
             onChange={(e) => setDestination(e.target.value)}
-            className="text-2xl border border-neutral-400 px-2 rounded py-1"
+            className="text-2xl outline-none focus:shadow-gray-500 shadow-md  border border-neutral-400 px-2 rounded py-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
             type="text"
             placeholder="New Work"
           />
@@ -153,7 +154,7 @@ const TripForm = () => {
             <input
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="text-2xl border border-neutral-400 px-2 rounded py-1"
+              className="text-2xl outline-none focus:shadow-gray-500 shadow-md  border border-neutral-400 px-2 rounded py-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               type="date"
             />
           </div>
@@ -167,7 +168,7 @@ const TripForm = () => {
             <input
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="text-2xl border border-neutral-400 px-2 rounded py-1"
+              className="text-2xl outline-none focus:shadow-gray-500 shadow-md  border border-neutral-400 px-2 rounded py-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               type="date"
             />
           </div>
@@ -182,7 +183,7 @@ const TripForm = () => {
           <input
             value={travelers}
             onChange={(e) => setTravelers(e.target.value)}
-            className="text-2xl border border-neutral-400 px-2 rounded py-1"
+            className="text-2xl outline-none focus:shadow-gray-500 shadow-md  border border-neutral-400 px-2 rounded py-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
             type="number"
             placeholder="2"
           />
@@ -194,7 +195,7 @@ const TripForm = () => {
           )}
           <div className="flex text-center justify-between items-center gap-5 p-2">
             <div
-              className={` h-full  w-full flex flex-col justify-center cursor-pointer items-center  rounded-md ${budget === "budget" ? "border-2 border-black bg-gray-50" : "border border-neutral-300 hover:border-gray-800"}`}
+              className={` h-full  w-full flex flex-col justify-center cursor-pointer items-center  rounded-md ${budget === "budget" ? "border-2 border-black  shadow-md bg-gray-50" : "border border-neutral-300 hover:border-gray-800"}`}
               onClick={() => setBudget("budget")}
             >
               {/* budget */}
@@ -210,7 +211,7 @@ const TripForm = () => {
               </p>
             </div>
             <div
-              className={` h-full  w-full flex flex-col justify-center items-center  cursor-pointer rounded-md ${budget === "moderate" ? "border-2 border-black bg-gray-50" : "border border-neutral-300 hover:border-gray-800"}`}
+              className={` h-full  w-full flex flex-col justify-center items-center  cursor-pointer rounded-md ${budget === "moderate" ? "border-2 border-black shadow-md bg-gray-50" : "border border-neutral-300 hover:border-gray-800"}`}
               onClick={() => setBudget("moderate")}
             >
               {/* moderate */}
@@ -226,7 +227,7 @@ const TripForm = () => {
               </p>
             </div>
             <div
-              className={` h-full  w-full flex flex-col justify-center cursor-pointer items-center  rounded-md ${budget === "luxury" ? "border-2 border-black bg-gray-50" : "border border-neutral-300 hover:border-gray-800"}`}
+              className={` h-full  w-full flex flex-col justify-center cursor-pointer items-center  rounded-md ${budget === "luxury" ? "border-2 border-black shadow-md bg-gray-50" : "border border-neutral-300 hover:border-gray-800"}`}
               onClick={() => setBudget("luxury")}
             >
               {/* luxury */}
@@ -252,7 +253,23 @@ const TripForm = () => {
           )}
           <div className="flex flex-wrap  items-center gap-2 p-2">
             {interestsActivity.map((int, idx) => (
-              <div
+              <motion.div
+                initial={{
+                  y: 20,
+                  opacity: 0,
+                  filter: "blur(10px)",
+                }}
+                whileInView={{
+                  y: 0,
+                  opacity: 1,
+                  filter: "blur(0)",
+                }}
+                transition={{
+                  delay: 0.2 * idx,
+                  duration: 0.4,
+                  ease: "easeOut",
+                }}
+                viewport={{ once: true }}
                 key={idx}
                 onClick={() => setInterests(int.name)}
                 className={`  w-fit  justify-center cursor-pointer items-center  rounded-md 
@@ -262,7 +279,7 @@ const TripForm = () => {
                     `}
               >
                 <p>{int.name}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -274,7 +291,7 @@ const TripForm = () => {
           <input
             value={foodPreferences}
             onChange={(e) => setFoodPreferences(e.target.value)}
-            className="text-2xl border border-neutral-400 px-2 rounded py-1"
+            className="text-2xl outline-none focus:shadow-gray-500 shadow-md  border border-neutral-400 px-2 rounded py-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
             type="text"
             placeholder="E.g. Non-veg biryani, chicken tikka."
           />
@@ -287,7 +304,7 @@ const TripForm = () => {
           <select
             value={travelStyle}
             onChange={(e) => setTravelStyle(e.target.value)}
-            className="w-full rounded-lg border p-3"
+            className="w-full rounded-lg shadow focus:shadow-gray-500 border p-3"
           >
             <option value="">Select travel style</option>
             <option value="relaxed">Relaxed</option>
@@ -297,18 +314,21 @@ const TripForm = () => {
             <option value="budget">Budget</option>
           </select>
         </div>
-        
-          <button
+
+        <button
           disabled={loading}
-            type="submit"
-            className={`w-full cursor-pointer  duration-300 rounded-lg bg-black px-5 py-3 text-white flex justify-center items-center `}
-          >
-            {
-             loading === true ?(
-            <span className="flex gap-2"><IconLoader stroke={2} className="animate-spin " /><p className="animate-pulse">Generating Trip...</p></span>):"Generate My Trip"
-            }
-          </button>
-        
+          type="submit"
+          className={`w-full  mx-auto  cursor-pointer  duration-300 rounded-lg bg-black px-5 py-3 text-white flex justify-center items-center `}
+        >
+          {loading === true ? (
+            <span className="flex gap-2">
+              <IconLoader stroke={2} className="animate-spin " />
+              <p className="animate-pulse">Generating Trip...</p>
+            </span>
+          ) : (
+            "Generate My Trip"
+          )}
+        </button>
       </form>
     </div>
   );
