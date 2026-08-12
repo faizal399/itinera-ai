@@ -4,11 +4,7 @@ export async function POST(req: NextRequest) {
   try {
     const { place } = await req.json();
 
-    // console.log("Place:", place);
-    // console.log(
-    //   "API KEY EXISTS:",
-    //   !!process.env.GOOGLE_MAPS_API_KEY
-    // );
+   
 
     if (!place) {
       return NextResponse.json(
@@ -45,9 +41,7 @@ export async function POST(req: NextRequest) {
 
     const data = await response.json();
 
-    // console.log("Google status:", response.status);
-    // console.log("Google response:", data);
-
+    
     if (!response.ok) {
       return NextResponse.json(
         {

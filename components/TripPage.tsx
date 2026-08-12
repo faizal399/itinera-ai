@@ -6,12 +6,13 @@ import React, { useEffect, useState } from "react";
 import { IconBulb } from "@tabler/icons-react";
 import PlaceInfo from "@/components/PlaceInfo";
 import { IconRoute } from "@tabler/icons-react";
+import { motion } from "motion/react";
 import DownloadPDF from "./DownloadPDF";
+import { TypingEffect } from "./TypingEffect";
 
 const TripPage = () => {
   const { itinerary } = useTripStore();
 
-  console.log(itinerary);
 
   const [placeData, setPlaceData] = useState<Record<string, any>>({});
   const [loadingPlaces, setLoadingPlaces] = useState(true);
@@ -81,8 +82,8 @@ const TripPage = () => {
     <main className="min-h-screen w-full max-w-6xl mx-auto text-black py-5 px-2 tracking-tight">
       {/* SUMMARY */}
 
-      <div className="flex text-[#F56551] flex-col gap-2 my-5">
-        <h1 className="text-4xl font-bold ">Summary: {itinerary.destination}</h1>
+      <div className="flex flex-col gap-2 my-5 text-[#F56551]">
+        <TypingEffect text={`Summary: ${itinerary.destination}`} />
 
         <p className="w-3/4 text-xl text-neutral-800">{itinerary.summary}</p>
       </div>
@@ -93,15 +94,24 @@ const TripPage = () => {
         {itinerary.itinerary.map((trip: any, idx: number) => (
           <div className="border-y  p-4" key={idx}>
             <h2 className="text-xl font-bold mb-4">
-              <span >Day {trip.day}:</span> {trip.title}
+              <span>Day {trip.day}:</span> {trip.title}
             </h2>
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2  gap-6">
               {trip.activities.map((activity: any, activityIdx: number) => {
-                
-
                 return (
-                  <div className="border rounded-xl p-4" key={activityIdx}>
+                  <motion.div
+                    initial={{ y: 80, opacity: 0 }}
+                    viewport={{once:true}}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    transition={{
+                      delay: 0.3 * activityIdx,
+                      ease: "easeOut",
+                      duration:0.4
+                    }}
+                    className="border rounded-xl p-4"
+                    key={activityIdx}
+                  >
                     {/* ACTIVITY */}
                     <p className="text-lg flex gap-1 items-center">
                       <IconClock stroke={2} />
@@ -129,7 +139,7 @@ const TripPage = () => {
                         placeName={`${activity.activity}, ${itinerary.destination}`}
                       />
                     )}
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
@@ -179,9 +189,9 @@ const TripPage = () => {
           </div>
         </div>
       </div>
-        <div className="w-full p-4 mx-auto no-print">
-          <DownloadPDF/>
-        </div>
+      <div className="w-full p-4 mx-auto no-print">
+        <DownloadPDF />
+      </div>
     </main>
   );
 };

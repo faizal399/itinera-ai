@@ -65,6 +65,7 @@ const page = () => {
                 opacity: 1,
                 filter: "blur(0)",
               }}
+              viewport={{ once: true }}
               transition={{
                 delay: 0.1 * idx,
               }}
@@ -108,6 +109,7 @@ const page = () => {
               opacity: 1,
               filter: "blur(0)",
             }}
+            viewport={{ once: true }}
             transition={{
               duration: 0.3,
             }}
@@ -121,6 +123,7 @@ const page = () => {
               opacity: 0,
               filter: "blur(10px)",
             }}
+            viewport={{ once: true }}
             whileInView={{
               y: 0,
               opacity: 1,
@@ -146,6 +149,7 @@ const page = () => {
             opacity: 1,
             filter: "blur(0)",
           }}
+          viewport={{ once: true }}
           transition={{
             duration: 0.3,
             delay: 0.5,
@@ -165,6 +169,7 @@ const page = () => {
             opacity: 1,
             filter: "blur(0)",
           }}
+          viewport={{ once: true }}
           transition={{
             duration: 0.3,
             delay: 0.4,
@@ -192,6 +197,7 @@ const page = () => {
             opacity: 1,
             filter: "blur(0)",
           }}
+          viewport={{ once: true }}
           transition={{
             delay: 0.4,
             duration: 0.4,
@@ -199,43 +205,48 @@ const page = () => {
           className="bg-neutral-900 mx-auto w-1/2  rounded-md my-10 p-5 flex flex-col justify-center items-center gap-4"
         >
           <motion.p
-          
-           initial={{
-            y: -20,
-            opacity: 0,
-            filter: "blur(10px)",
-          }}
-          whileInView={{
-            y: 0,
-            opacity: 1,
-            filter: "blur(0)",
-          }}
-          transition={{
-            delay: 0.8,
-            duration: 0.4,
-          }}
-          className="text-4xl tracking-tight font-bold">
+            initial={{
+              y: -20,
+              opacity: 0,
+              filter: "blur(10px)",
+            }}
+            whileInView={{
+              y: 0,
+              opacity: 1,
+              filter: "blur(0)",
+            }}
+            viewport={{ once: true }}
+            transition={{
+              delay: 0.8,
+              duration: 0.4,
+            }}
+            className="text-4xl tracking-tight font-bold"
+          >
             Skip the manual trip planning and start your effortless journey with
             Trip Planner AI today, at no cost.
           </motion.p>
-          <motion.button
-           initial={{
-            y: 20,
-            opacity: 0,
-            filter: "blur(10px)",
-          }}
-          whileInView={{
-            y: 0,
-            opacity: 1,
-            filter: "blur(0)",
-          }}
-          transition={{
-            delay: 0.4,
-            duration: 0.4,
-          }}
-          className="bg-neutral-100 text-neutral-900 px-4 py-1 rounded  cursor-pointer text-2xl">
-            Try Now
-          </motion.button>
+          <Link href={"/create-trip"}>
+            <motion.button
+              initial={{
+                y: 20,
+                opacity: 0,
+                filter: "blur(10px)",
+              }}
+              whileInView={{
+                y: 0,
+                opacity: 1,
+                filter: "blur(0)",
+              }}
+              viewport={{ once: true }}
+              transition={{
+                delay: 0.4,
+                duration: 0.4,
+              }}
+              className="bg-neutral-100 text-neutral-900 px-4 py-1 rounded  cursor-pointer text-2xl"
+            >
+              Try Now
+            </motion.button>
+          </Link>
         </motion.div>
       </main>
     </div>

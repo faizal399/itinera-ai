@@ -42,7 +42,7 @@ export default function PlaceInfo({
 
     async function fetchPlace() {
       try {
-        console.log("Searching:", placeName);
+        // console.log("Searching:", placeName);
 
         const response = await fetch("/api/places", {
           method: "POST",
@@ -56,7 +56,7 @@ export default function PlaceInfo({
 
         const data = await response.json();
 
-        // console.log("PLACE RESPONSE:", data);
+       
 
         if (!response.ok) {
           throw new Error(
@@ -91,8 +91,7 @@ const imageUrl = photoName
   ? `/api/places/photo?name=${encodeURIComponent(photoName)}`
   : null;
 
-//   console.log("PHOTO NAME:", photoName);
-//   console.log("IMAGE URL:", imageUrl);
+//  
 
   return (
     <div className="mt-5 overflow-hidden rounded-xl border bg-white h-100">

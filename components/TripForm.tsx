@@ -5,7 +5,9 @@ import useTripStore from "../store/useTripStore";
 import { tripSchema } from "@/lib/tripSchema";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+
 import { IconLoader } from "@tabler/icons-react";
+import LabelText from "./LabelText";
 const TripForm = () => {
   const [errors, setErrors] = useState<Record<string, string[] | undefined>>(
     {},
@@ -91,7 +93,7 @@ const TripForm = () => {
     }
     setErrors({});
 
-    console.log("Valid: ", result.data);
+    // console.log("Valid: ", result.data);
 
     try {
       setLoading(true);
@@ -111,13 +113,11 @@ const TripForm = () => {
         throw new Error(data.error || "Failed to generate trip");
       }
 
-      console.log("Generated Trip:", data);
+      
       setItinerary(data);
 
       router.push("/trip");
-      // const trip = await response.json();
-      console.log(data);
-      // console.log("Trip generated", trip);
+
     } catch (error) {
       console.error("Trip Generation Error: ", error);
     } finally {
@@ -126,16 +126,28 @@ const TripForm = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen">
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="flex flex-col gap-2">
-          <label className="text-2xl font-bold">
-            What is destination of choice?
-          </label>
+          <LabelText>What is destination of choice?</LabelText>
           {errors.destination && (
             <p className="text-red-500 text-sm">{errors.destination[0]}</p>
           )}
-          <input
+          <motion.input
+              initial={{
+              y: 20,
+              opacity: 0,
+            }}
+            whileInView={{
+              y: 0,
+              opacity: 1,
+            }}
+            viewport={{once:true}}
+            transition={{
+              delay: 0.2,
+              duration: 0.4,
+              ease: "easeOut",
+            }}
             value={destination}
             onChange={(e) => setDestination(e.target.value)}
             className="text-2xl outline-none focus:shadow-gray-500 shadow-md  border border-neutral-400 px-2 rounded py-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
@@ -145,13 +157,25 @@ const TripForm = () => {
         </div>
         <div className="flex gap-2 justify-between">
           <div className="flex flex-col gap-2">
-            <label className="text-2xl font-bold">
-              When are you planning to travel?
-            </label>
+            <LabelText>When are you planning to travel?</LabelText>
             {errors.startDate && (
               <p className="text-red-500 text-sm">{errors.startDate[0]}</p>
             )}
-            <input
+            <motion.input
+              initial={{
+              y: 20,
+              opacity: 0,
+            }}
+            whileInView={{
+              y: 0,
+              opacity: 1,
+            }}
+            viewport={{once:true}}
+            transition={{
+              delay: 0.2,
+              duration: 0.4,
+              ease: "easeOut",
+            }}
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
               className="text-2xl outline-none focus:shadow-gray-500 shadow-md  border border-neutral-400 px-2 rounded py-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
@@ -159,13 +183,27 @@ const TripForm = () => {
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label className="text-2xl font-bold">
+            <LabelText >
               When are you planning to End trip?
-            </label>
+            </LabelText>
             {errors.endDate && (
               <p className="text-red-500 text-sm">{errors.endDate[0]}</p>
             )}
-            <input
+            <motion.input
+             initial={{
+              y: 20,
+              opacity: 0,
+            }}
+            whileInView={{
+              y: 0,
+              opacity: 1,
+            }}
+            viewport={{once:true}}
+            transition={{
+              delay: 0.2,
+              duration: 0.4,
+              ease: "easeOut",
+            }}
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
               className="text-2xl outline-none focus:shadow-gray-500 shadow-md  border border-neutral-400 px-2 rounded py-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
@@ -180,7 +218,21 @@ const TripForm = () => {
           {errors.travelers && (
             <p className="text-red-500 text-sm">{errors.travelers[0]}</p>
           )}
-          <input
+          <motion.input
+             initial={{
+              y: 20,
+              opacity: 0,
+            }}
+            whileInView={{
+              y: 0,
+              opacity: 1,
+            }}
+            viewport={{once:true}}
+            transition={{
+              delay: 0.2,
+              duration: 0.4,
+              ease: "easeOut",
+            }}
             value={travelers}
             onChange={(e) => setTravelers(e.target.value)}
             className="text-2xl outline-none focus:shadow-gray-500 shadow-md  border border-neutral-400 px-2 rounded py-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
@@ -189,7 +241,7 @@ const TripForm = () => {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-2xl font-bold">What is Your Budget?</label>
+          <LabelText >What is Your Budget?</LabelText>
           {errors.budget && (
             <p className="text-red-500 text-sm">{errors.budget[0]}</p>
           )}
@@ -245,9 +297,9 @@ const TripForm = () => {
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-2xl font-bold">
+          <LabelText >
             Which activities are you interested in?
-          </label>
+          </LabelText>
           {errors.interests && (
             <p className="text-red-500 text-sm">{errors.interests[0]}</p>
           )}
@@ -284,11 +336,25 @@ const TripForm = () => {
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-2xl font-bold">Food Preferences?</label>
+          <LabelText>Food Preferences?</LabelText>
           {errors.foodPreferences && (
             <p className="text-red-500 text-sm">{errors.foodPreferences[0]}</p>
           )}
-          <input
+          <motion.input
+             initial={{
+              y: 20,
+              opacity: 0,
+            }}
+            whileInView={{
+              y: 0,
+              opacity: 1,
+            }}
+            viewport={{once:true}}
+            transition={{
+              delay: 0.2,
+              duration: 0.4,
+              ease: "easeOut",
+            }}
             value={foodPreferences}
             onChange={(e) => setFoodPreferences(e.target.value)}
             className="text-2xl outline-none focus:shadow-gray-500 shadow-md  border border-neutral-400 px-2 rounded py-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
@@ -297,11 +363,25 @@ const TripForm = () => {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-2xl font-bold">Travel Style?</label>
+          <LabelText>Travel Style?</LabelText>
           {errors.travelStyle && (
             <p className="text-red-500 text-sm">{errors.travelStyle[0]}</p>
           )}
-          <select
+          <motion.select
+             initial={{
+              y: 20,
+              opacity: 0,
+            }}
+            whileInView={{
+              y: 0,
+              opacity: 1,
+            }}
+            viewport={{once:true}}
+            transition={{
+              delay: 0.2,
+              duration: 0.4,
+              ease: "easeOut",
+            }}
             value={travelStyle}
             onChange={(e) => setTravelStyle(e.target.value)}
             className="w-full rounded-lg shadow focus:shadow-gray-500 border p-3"
@@ -312,10 +392,24 @@ const TripForm = () => {
             <option value="cultural">Cultural</option>
             <option value="luxury">Luxury</option>
             <option value="budget">Budget</option>
-          </select>
+          </motion.select>
         </div>
 
-        <button
+        <motion.button
+           initial={{
+              y: 20,
+              opacity: 0,
+            }}
+            whileInView={{
+              y: 0,
+              opacity: 1,
+            }}
+            viewport={{once:true}}
+            transition={{
+              delay: 0.4,
+              duration: 0.4,
+              ease: "easeOut",
+            }}
           disabled={loading}
           type="submit"
           className={`w-full  mx-auto  cursor-pointer  duration-300 rounded-lg bg-black px-5 py-3 text-white flex justify-center items-center `}
@@ -328,7 +422,7 @@ const TripForm = () => {
           ) : (
             "Generate My Trip"
           )}
-        </button>
+        </motion.button>
       </form>
     </div>
   );

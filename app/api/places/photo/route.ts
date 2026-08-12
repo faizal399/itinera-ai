@@ -6,8 +6,7 @@ export async function GET(req: NextRequest) {
 
     const photoName = searchParams.get("name");
 
-    console.log("PHOTO NAME:", photoName);
-
+   
     if (!photoName) {
       return new NextResponse("Photo name is missing", {
         status: 400,
@@ -26,14 +25,11 @@ export async function GET(req: NextRequest) {
       `https://places.googleapis.com/v1/${photoName}/media` +
       `?maxWidthPx=1000&key=${apiKey}`;
 
-    console.log("Calling Google Photo API...");
+    
 
     const response = await fetch(googleUrl);
 
-    console.log(
-      "Google photo status:",
-      response.status
-    );
+   
 
     if (!response.ok) {
       const error = await response.text();

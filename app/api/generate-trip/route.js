@@ -4,7 +4,7 @@ import { generateTrip } from "../../../lib/gemini";
 export async function POST(req) {
   try {
     const body = await req.json();
-    console.log("Received body:", body);
+    
     const {
       destination,
       budget,
@@ -64,7 +64,7 @@ The JSON must follow this structure:
 
     const trip = await generateTrip(prompt);
 
-    console.log("Gemini response:", trip);
+    
 
     return Response.json(trip);
   } catch (error) {

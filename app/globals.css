@@ -10,10 +10,25 @@
     background: white;
   }
 }
-
+body {
+    /* Chrome, Safari, newer Edge, and Opera */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    
+    /* Firefox */
+    scrollbar-width: none;
+    
+    /* Legacy IE and Edge */
+    -ms-overflow-style: none; 
+}
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 @theme inline {

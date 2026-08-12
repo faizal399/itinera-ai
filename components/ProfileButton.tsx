@@ -17,8 +17,8 @@ const ProfileButton = () => {
         fallbackRedirectUrl="/"
         signUpFallbackRedirectUrl="/create-trip"
       >
-        <button className="bg-black text-white px-4 py-2 rounded">
-          Sign In
+        <button className="bg-black text-white px-4 w-fit text-nowrap cursor-pointer fit text-center py-2 rounded">
+        Sign In
         </button>
       </SignInButton>
     );
@@ -29,7 +29,7 @@ const ProfileButton = () => {
       <UserButton
         appearance={{
           elements: {
-            avatarBox: "w-14 h-14"
+            avatarBox: "w-14 h-14",
           },
         }}
       />
