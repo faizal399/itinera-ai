@@ -1,8 +1,10 @@
 "use client";
 import React from "react";
-
+interface LabelTextProps {
+  children: React.ReactNode;
+}
 import { motion } from "motion/react";
-const LabelText = ({ children }) => {
+const LabelText = ({ children}:LabelTextProps) => {
   return (
     <motion.label
       initial={{

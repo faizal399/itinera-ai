@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 interface Place {
   displayName?: {
     text: string;
+    languageCode?: string;
   };
 
   formattedAddress?: string;
@@ -17,6 +18,8 @@ interface Place {
 
   photos?: {
     name: string;
+    widthPx?: number;
+    heightPx?: number;
     authorAttributions?: {
       displayName?: string;
       uri?: string;
@@ -33,6 +36,7 @@ export default function PlaceInfo({
 }: PlaceInfoProps) {
   const [place, setPlace] = useState<Place | null>(null);
   const [loading, setLoading] = useState(true);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     if (!placeName) {
@@ -42,8 +46,6 @@ export default function PlaceInfo({
 
     async function fetchPlace() {
       try {
-        // console.log("Searching:", placeName);
-
         const response = await fetch("/api/places", {
           method: "POST",
           headers: {
@@ -55,8 +57,6 @@ export default function PlaceInfo({
         });
 
         const data = await response.json();
-
-       
 
         if (!response.ok) {
           throw new Error(
@@ -85,25 +85,29 @@ export default function PlaceInfo({
     return null;
   }
 
-const photoName = place.photos?.[0]?.name;
+  const photoName = place.photos?.[0]?.name;
 
-const imageUrl = photoName
-  ? `/api/places/photo?name=${encodeURIComponent(photoName)}`
-  : null;
-
-//  
+  const imageUrl =
+    photoName && !imageError
+      ? `/api/places/photo?name=${encodeURIComponent(
+          photoName
+        )}`
+      : null;
 
   return (
-    <div className="mt-5 overflow-hidden rounded-xl border bg-white h-100">
-
+    <div className="mt-5 overflow-hidden rounded-xl border bg-white">
       {/* PHOTO */}
 
       {imageUrl && (
         <div className="relative h-52 w-full overflow-hidden">
           <img
             src={imageUrl}
-            alt={place.displayName?.text || placeName}
+            alt={
+              place.displayName?.text ||
+              placeName
+            }
             className="h-full w-full object-cover"
+            onError={() => setImageError(true)}
           />
         </div>
       )}
@@ -111,16 +115,15 @@ const imageUrl = photoName
       {/* INFO */}
 
       <div className="p-4">
-
         <h4 className="text-xl font-bold">
           {place.displayName?.text}
         </h4>
 
-        {place.rating && (
+        {place.rating !== undefined && (
           <p className="mt-2">
             ⭐ {place.rating}
 
-            {place.userRatingCount && (
+            {place.userRatingCount !== undefined && (
               <span className="ml-2 text-sm text-neutral-500">
                 (
                 {place.userRatingCount.toLocaleString()}
@@ -146,7 +149,6 @@ const imageUrl = photoName
             View on Google Maps
           </a>
         )}
-
       </div>
     </div>
   );

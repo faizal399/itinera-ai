@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { motion } from "motion/react";
-const page = () => {
+const Page = () => {
   const destinations = [
     {
       name: "Agra",
@@ -47,7 +47,7 @@ const page = () => {
     },
   ];
 
-  const [active, setActive] = useState(null);
+  const [active, setActive] = useState<number | null>(null);
 
   return (
     <div className="flex flex-col bg-neutral-100 pb-20 min-h-screen w-full">
@@ -253,4 +253,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
